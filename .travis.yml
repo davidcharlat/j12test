@@ -1,0 +1,6 @@
+language: c
+install:
+  - git clone $J12
+script:
+- bash ./test.sh
+
