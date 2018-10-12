@@ -296,7 +296,51 @@ then
 	cd ..
 	rm -r ex03/
 fi
-
+if [ -f j12/ex04/Makefile ]
+then
+	cp -r j12/ex04/ ex04/
+	cd ex04/
+	make -s all || errorExit "Error: compilation failed"
+	if [ -f ft_last ]
+	then 
+		echo "ft_last: compilation OK"
+		make -s clean || errorExit "Error: failed to make clean"
+		if [ -f ft*.o ]
+		then
+			errorExit "Error: failed to delete .o files"
+		fi
+		make -s fclean || errorExit "Error: failed to make fclean"
+		if [ -f ft_last ]
+		then
+			errorExit "Error: failed to delete ft_last"
+		fi
+		make -s all || errorExit "Error: all failed"
+		OUTPUT="`last`";
+		OUTPUTBIS="`./ft_last`";
+		echo "test:"
+		echo "expected:"
+		echo "$OUTPUT"
+		echo "received:"
+		echo "$OUTPUTBIS"
+		if [ "$OUTPUT" = "$OUTPUTBIS" ]
+		then
+			echo "OK"
+		else
+			echo "wrong"
+		fi	
+		if [ $n -eq 4 ]
+		then	
+			let "n = n + 1"
+		fi
+	else 
+		errorExit "Error: failed to create ft_last" 
+	fi
+	make -s fclean
+	echo "ex04 OK"
+	echo ""
+	cd ..
+	rm -r ex04/
+fi
 echo "resultat = $n"
 
 exit 0
